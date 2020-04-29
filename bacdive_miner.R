@@ -1,3 +1,4 @@
+# Installation of BacDiveR: https://github.com/TIBHannover/BacDiveR
 # R setup
 
 library(tidyverse) # Main library used in this project
