@@ -1,11 +1,10 @@
-# Installation of BacDiveR: https://github.com/TIBHannover/BacDiveR
-# R setup
-
+# Setup
 library(tidyverse) # Main library used in this project
 library(magrittr) # Useful for pipe %>% and T %T>%
-library(BacDiveR) # Allows us to access bacdive RESTful API and download entries
 library(ggrepel) # Useful for plotting labels on ggplots
-
+library(BacDiveR) # Allows you to access bacdive RESTful API and download entries
+# Installation of BacDiveR: https://github.com/TIBHannover/BacDiveR
+setwd("/Users/Tristan/bacdive_mineR") # change me!
 # Read bacdive
 
 # Start by pulling all entries for a species
@@ -38,13 +37,13 @@ fa_bugs <- bd_retrieve_by_search(
           sep="&")
 )
 # cache the rds to avoid redundant downloading
-fa_bugs %>% write_rds(file.path("bacdive_fatty_acids_all_data.rds"))
+fa_bugs %>% write_rds(file.path("./bacdive_fatty_acids_all_data.rds"))
 
 #########
 
 
-# Load from Cache
-fa_bugs <- read_rds(file.path("/Users/Tristan/bacdive_mineR/bacdive_fatty_acids_all_data.rds"))
+######### OTHERWISE, LOAD DIRECTLY FROM CACHE
+fa_bugs <- read_rds(file.path("./bacdive_fatty_acids_all_data.rds"))
 
 # We've got our data structure, now let's parse it for what we care about
 
@@ -62,7 +61,7 @@ fas <-
 
 # We can download the isolation sources from https://bacdive.dsmz.de/isolation-sources
 source <- read_csv(
-  file.path("/Users/Tristan/bacdive_mineR/export_bacdive_iso_table.csv"),
+  file.path("./export_bacdive_iso_table.csv"),
   col_types = cols(
     ID = col_character(),
     Species = col_character(),
@@ -87,7 +86,7 @@ environmental_count <-
 
 
 # Read in top 20 taxa from aerobiology study
-tax_table <- read.csv("top_20_tax.csv")
+tax_table <- read.csv("./top_20_tax.csv")
 
 # Create a tibble of the strains that are in the tax_table
 matching_strains <- strains %>%
@@ -107,23 +106,6 @@ matching_fas$ID = as.numeric(as.character(matching_fas$ID))
 matching_fas %<>% arrange(genus) #arrange in ascending order
 # This tibble is useful for plotting individual fatty acid profiles.
 # Let's take Alishewanella fetalis (ID = 440) as an example:
-test_440_fa <- matching_fas %>%
-  filter(ID == "440")
-
-test_440_str <- matching_strains %>% 
-  filter(ID == "440")
-
-test_440_plt <- ggplot(test_440_fa, aes(x = FA_mn_ECL, y = FA_mn_val)) +
-  geom_bar(stat="identity") +
-  geom_text_repel(label=test_440_fa$FA_name, nudge_y = 0.5, size = 2, color = "red") +
-  ggtitle(paste(test_440_str$species, "Fatty Acid Profile")) +
-  ylab("Percent composition") +
-  xlab("Elution Time (minutes)") +
-  theme_bw()
-test_440_plt # It works!
-ggsave(plot=test_440_plt, filename=as.character(paste(test_440_str$species, "Fatty Acid Profile", ".png")))
-
-
 
 
 # In order to see FA profiles at the genus level, we need to compress
@@ -150,6 +132,6 @@ for (gns in unique(matching_fas_genus$genus)) {
           xlab("Elution Time (minutes)") +
           theme_bw()
   print(plt)
-  ggsave(plot = plt, filename=as.character(paste(gns, "fatty_acid_profile.png")))
+  ggsave(plot = plt, filename=as.character(paste(gns, "./fatty_acid_profile.png")))
 }
 # Done!
