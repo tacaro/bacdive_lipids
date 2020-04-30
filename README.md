@@ -7,7 +7,7 @@ I demonstrate this function by using the 20 most abundant bacterial taxa identif
 ## Repository Contents
 - README.md: This file
 - bacdive_miner.R: R script that parses fatty acid profiles for certain bacterial taxa
-- top_20_taxa.csv: A comma-separated file that lists the most abundant bacterial taxa from the GLDS-170 dataset. This file is structured as a taxa table that results from the (DADA2 pipeline)[https://benjjneb.github.io/dada2/].
+- top_20_taxa.csv: A comma-separated file that lists the most abundant bacterial taxa from the GLDS-170 dataset. This file is structured as a taxa table that results from the [DADA2 pipeline](https://benjjneb.github.io/dada2/).
 - export_bacdive_iso_table.csv: Downloaded from BacDive, a list of isolation sources.
 - bacdive_fatty_acids_all_data.rds: A large cache. Contains every BacDive entry with a valid fatty acid profile.
 - .PNG images: Results from bacdive_miner.R
@@ -22,7 +22,7 @@ The easiest option is to use the cache that I have provided. This contains every
 `fa_bugs <- read_rds(file.path("bacdive_fatty_acids_all_data.rds"))`
 
 **Option 2: Creating your own BacDive Cache**
-**NOTE**: *To request data from BacDive using their RESTful API, an account needs to be created and (BacDiveR)[https://github.com/TIBHannover/BacDiveR] library must be installed. To avoid this, follow option 1. If following option 1, do not worry that library(BacDiveR) returns an error.*
+**NOTE**: *To request data from BacDive using their RESTful API, an account needs to be created and [BacDiveR](https://github.com/TIBHannover/BacDiveR) library must be installed. To avoid this, follow option 1. If following option 1, do not worry that library(BacDiveR) returns an error.*
 Begin by reading in a single taxon, as a sanity check (lines 16-18).
 Then, use `bd_retrieve_by_search()` followed by `write_rds()` to write the entries as a .rds file.
 
@@ -62,4 +62,4 @@ Lastly, we use a `left_join()` to add genus names to the tibble.
 6. We then collapse multiple species of the same genus into a single fatty acid profile by averaging the relative fatty acid compositions. We do this with the `summarize()` function.
 
 7. Finally, we use a for loop to plot each fatty acid profile for our taxa-of-interest. This results in the plots contained in this repository. For example:
-![Image](/Acinetobacter fatty_acid_profile.png)
+![Acinetobacter Fatty Acid Profile](/Acinetobacter_fatty_acid_profile.png)
