@@ -62,4 +62,4 @@ Lastly, we use a `left_join()` to add genus names to the tibble.
 6. We then collapse multiple species of the same genus into a single fatty acid profile by averaging the relative fatty acid compositions. We do this with the `summarize()` function.
 
 7. Finally, we use a for loop to plot each fatty acid profile for our taxa-of-interest. This results in the plots contained in this repository. For example:
-![Acinetobacter Fatty Acid Profile](/Acinetobacter_fatty_acid_profile.png)
+![Acinetobacter Fatty Acid Profile](/Acinetobacter\ fatty_acid_profile.png)
